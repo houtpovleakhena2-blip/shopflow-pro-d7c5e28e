@@ -18,45 +18,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { products } from '@/data/products';
 import { formatPrice, cn } from '@/lib/utils';
-
-const sidebarLinks = [
-  { icon: LayoutDashboard, label: 'Dashboard', href: '/admin' },
-  { icon: Package, label: 'Products', href: '/admin/products' },
-  { icon: ShoppingCart, label: 'Orders', href: '/admin/orders' },
-  { icon: Users, label: 'Customers', href: '/admin/customers' },
-  { icon: Settings, label: 'Settings', href: '/admin/settings' },
-];
-
-const stats = [
-  {
-    label: 'Total Revenue',
-    value: '$45,231.89',
-    change: '+20.1%',
-    trend: 'up',
-    icon: DollarSign,
-  },
-  {
-    label: 'Orders',
-    value: '356',
-    change: '+12.5%',
-    trend: 'up',
-    icon: ShoppingCart,
-  },
-  {
-    label: 'Products',
-    value: products.length.toString(),
-    change: '+3',
-    trend: 'up',
-    icon: Package,
-  },
-  {
-    label: 'Page Views',
-    value: '12,543',
-    change: '-2.3%',
-    trend: 'down',
-    icon: Eye,
-  },
-];
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 
 const recentOrders = [
   {
@@ -96,6 +59,59 @@ const recentOrders = [
 const AdminDashboard = () => {
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const { t } = useLanguage();
+
+  const sidebarLinks = [
+    { icon: LayoutDashboard, label: t('dashboard'), href: '/admin' },
+    { icon: Package, label: t('products'), href: '/admin/products' },
+    { icon: ShoppingCart, label: t('orders'), href: '/admin/orders' },
+    { icon: Users, label: t('customers'), href: '/admin/customers' },
+    { icon: Settings, label: t('settings'), href: '/admin/settings' },
+  ];
+
+  const stats = [
+    {
+      label: t('totalRevenue'),
+      value: '$45,231.89',
+      change: '+20.1%',
+      trend: 'up',
+      icon: DollarSign,
+    },
+    {
+      label: t('totalOrders'),
+      value: '356',
+      change: '+12.5%',
+      trend: 'up',
+      icon: ShoppingCart,
+    },
+    {
+      label: t('totalProducts'),
+      value: products.length.toString(),
+      change: '+3',
+      trend: 'up',
+      icon: Package,
+    },
+    {
+      label: t('pageViews'),
+      value: '12,543',
+      change: '-2.3%',
+      trend: 'down',
+      icon: Eye,
+    },
+  ];
+
+  const getStatusLabel = (status: string) => {
+    switch (status) {
+      case 'delivered':
+        return t('completed');
+      case 'shipped':
+        return t('shipped');
+      case 'pending':
+        return t('pending');
+      default:
+        return status;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-muted">
@@ -145,7 +161,7 @@ const AdminDashboard = () => {
           {/* Back to Store */}
           <div className="p-4 border-t border-border">
             <Button variant="outline" className="w-full" asChild>
-              <Link to="/">← Back to Store</Link>
+              <Link to="/">← {t('shop')}</Link>
             </Button>
           </div>
         </div>
@@ -173,12 +189,13 @@ const AdminDashboard = () => {
               >
                 <Menu className="h-5 w-5" />
               </Button>
-              <h1 className="font-display text-xl font-semibold">Dashboard</h1>
+              <h1 className="font-display text-xl font-semibold">{t('dashboard')}</h1>
             </div>
             <div className="flex items-center gap-4">
+              <LanguageSwitcher />
               <Button variant="gold" size="sm">
                 <Package className="h-4 w-4 mr-2" />
-                Add Product
+                {t('products')}
               </Button>
             </div>
           </div>
@@ -215,7 +232,7 @@ const AdminDashboard = () => {
                       ) : (
                         <ArrowDownRight className="h-3 w-3 mr-1" />
                       )}
-                      {stat.change} from last month
+                      {stat.change}
                     </p>
                   </CardContent>
                 </Card>
@@ -233,9 +250,9 @@ const AdminDashboard = () => {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle>Recent Orders</CardTitle>
+                    <CardTitle>{t('recentOrders')}</CardTitle>
                     <Button variant="ghost" size="sm" asChild>
-                      <Link to="/admin/orders">View All</Link>
+                      <Link to="/admin/orders">{t('viewAll')}</Link>
                     </Button>
                   </div>
                 </CardHeader>
@@ -269,7 +286,7 @@ const AdminDashboard = () => {
                                 'bg-destructive/20 text-destructive'
                             )}
                           >
-                            {order.status}
+                            {getStatusLabel(order.status)}
                           </span>
                         </div>
                       </div>
@@ -288,9 +305,9 @@ const AdminDashboard = () => {
               <Card>
                 <CardHeader>
                   <div className="flex items-center justify-between">
-                    <CardTitle>Top Products</CardTitle>
+                    <CardTitle>{t('topProducts')}</CardTitle>
                     <Button variant="ghost" size="sm" asChild>
-                      <Link to="/admin/products">View All</Link>
+                      <Link to="/admin/products">{t('viewAll')}</Link>
                     </Button>
                   </div>
                 </CardHeader>

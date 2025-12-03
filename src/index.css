@@ -4,6 +4,20 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Khmer Language Font Styles */
+html[lang="km"] body {
+  font-family: 'Battambang', 'DM Sans', sans-serif;
+}
+
+html[lang="km"] h1,
+html[lang="km"] h2,
+html[lang="km"] h3,
+html[lang="km"] h4,
+html[lang="km"] h5,
+html[lang="km"] h6 {
+  font-family: 'Battambang', 'Playfair Display', serif;
+}
+
 @layer base {
   :root {
     /* Luxury E-commerce Design System */
