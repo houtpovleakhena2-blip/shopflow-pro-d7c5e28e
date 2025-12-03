@@ -4,21 +4,24 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ShoppingBag, Search, User, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/contexts/CartContext';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import { cn } from '@/lib/utils';
-
-const navLinks = [
-  { href: '/products', label: 'Shop' },
-  { href: '/products?category=clothing', label: 'Clothing' },
-  { href: '/products?category=accessories', label: 'Accessories' },
-  { href: '/products?category=footwear', label: 'Footwear' },
-  { href: '/products?category=bags', label: 'Bags' },
-];
 
 export const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { toggleCart, itemCount } = useCart();
+  const { t } = useLanguage();
   const location = useLocation();
+
+  const navLinks = [
+    { href: '/products', label: t('shop') },
+    { href: '/products?category=clothing', label: t('clothing') },
+    { href: '/products?category=accessories', label: t('accessories') },
+    { href: '/products?category=footwear', label: t('footwear') },
+    { href: '/products?category=bags', label: t('bags') },
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -66,6 +69,8 @@ export const Header = () => {
 
             {/* Actions */}
             <div className="flex items-center gap-2">
+              <LanguageSwitcher />
+              
               <Button variant="ghost" size="icon" className="hidden sm:flex">
                 <Search className="h-5 w-5" />
               </Button>
