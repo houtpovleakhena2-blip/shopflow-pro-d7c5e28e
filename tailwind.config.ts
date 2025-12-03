@@ -16,6 +16,7 @@ export default {
       fontFamily: {
         sans: ["DM Sans", "system-ui", "sans-serif"],
         display: ["Playfair Display", "Georgia", "serif"],
+        khmer: ["Battambang", "DM Sans", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
